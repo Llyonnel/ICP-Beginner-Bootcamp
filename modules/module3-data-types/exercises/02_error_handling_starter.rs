@@ -5,11 +5,21 @@ use std::fmt;
 // Create a configuration struct and parser that returns Results
 
 // Config struct - already defined
-#[derive(Debug)]
+// #[derive(Debug)]
 struct Config {
     username: String,
     timeout: u32,
     max_retries: u32,
+}
+
+impl fmt::Debug for Config {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        f.debug_struct("Config")
+            .field("username", &self.username)
+            .field("timeout", &self.timeout)
+            .field("max_retries", &self.max_retries)
+            .finish()
+    }
 }
 
 // Custom error type for configuration parsing errors - already defined with variants
@@ -109,9 +119,9 @@ enum ValidationError {
 impl fmt::Display for ValidationError {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         match self {
-            ValidationError::InvalidId => write!(f, /* TODO */),
-            ValidationError::NameTooShort => write!(f, /* TODO */),
-            ValidationError::InvalidAge => write!(f, /* TODO */),
+            ValidationError::InvalidId => write!(f, "Invalid ID: ID cannot be zero"),
+            ValidationError::NameTooShort => write!(f, "Name too short: Name must be at least 2 characters long"),
+            ValidationError::InvalidAge => write!(f, "Invalid age: Age must be at least 18"),
         }
     }
 }
@@ -120,15 +130,15 @@ impl fmt::Display for ValidationError {
 fn validate_user(user: &User) -> Result<(), ValidationError> {
     // Check ID validity
     if user.id == 0 {
-        return /* TODO */;
+        return Err(ValidationError::InvalidId);
     }
     
     if user.name.len() < 2 {
-        return /* TODO */;
+        return Err(ValidationError::NameTooShort);
     }
     
     if user.age < 18 {
-        return /* TODO */;
+        return Err(ValidationError::InvalidAge);
     }
     
     Ok(())
@@ -176,7 +186,7 @@ impl fmt::Display for ProcessError {
 
 // Process data function - needs implementation with ? operator
 fn process_data(config_str: &str, user_id: &str, user_name: &str, user_age: &str) -> Result<(), ProcessError> {
-    let config = parse_config(config_str)?;
+    let _config = parse_config(config_str)?;
     
     let id: u32 = user_id.parse()?;
     let age: u32 = user_age.parse()?;
