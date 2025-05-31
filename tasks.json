@@ -1,0 +1,12 @@
+{
+  "tasks": [
+    {
+      "id": 1,
+      "title": "\"Apprendre",
+      "description": "Rust\"",
+      "due_date": "\"Lire",
+      "status": "Pending"
+    }
+  ],
+  "next_id": 2
+}
